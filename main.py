@@ -1,12 +1,13 @@
 
 import time
 from agent import AllegianceAgent
+from config import AGENT_NAME
 from diplomacy import diplomacy_strategy
 from voting import voting_strategy
 from memory import Memory
 
 memory = Memory()
-agent = AllegianceAgent("SmartAgent")
+agent = AllegianceAgent(AGENT_NAME)
 agent.register()
 
 print("Agent registered. Waiting for game...")
