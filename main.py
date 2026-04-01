@@ -14,7 +14,7 @@ print("Agent registered. Waiting for game...")
 
 while True:
     state = agent.get_game_state()
-
+    print("Game State: ", state)
     if "result" not in state:
         time.sleep(3)
         continue
