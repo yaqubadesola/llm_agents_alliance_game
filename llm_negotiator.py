@@ -25,15 +25,18 @@ def _get_client():
 def generate_message(players):
 
     prompt = f"""
-You are a strategic AI agent playing a political alliance game.
+        You are playing a multiplayer alliance game.
 
-Players:
-{players}
+        Your goal:
+        - Form mutual alliances
+        - Avoid isolation
+        - Be persuasive
 
-Write a short diplomatic message proposing mutual alliance.
-Be persuasive but friendly.
-Keep under 20 words.
-"""
+        Players:
+        {players}
+
+        Write ONE short diplomatic message.
+    """
 
     response = _get_client().chat.completions.create(
         model="gpt-4o-mini",

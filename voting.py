@@ -1,18 +1,42 @@
 import random
+from config import AGENT_NAME
+from llm_voting import llm_vote
 
 
-def voting_strategy(players, memory, self_name):
+def voting_strategy(players, memory):
+
+    players = [p for p in players if p != AGENT_NAME]
 
     if not players:
         return ""
 
-    others = [p for p in players if p != self_name]
+    # 1. mutual alliance priority
+    promises = memory.get_promises()
 
-    if not others:
-        return ""
+    for p in promises:
+        if p in players:
+            print(f"Voting for promised ally: {p}")
+            return p
 
-    best = memory.get_best_player()
-    if best and best in others:
-        return best
+    # 2. trusted player
+    trusted = memory.get_best_trusted()
 
-    return random.choice(others)
+    if trusted and trusted in players:
+        print(f"Voting for trusted player: {trusted}")
+        return trusted
+
+    # 3. LLM voting
+    try:
+        llm_choice = llm_vote(players, memory)
+
+        if llm_choice in players:
+            print(f"LLM vote: {llm_choice}")
+            return llm_choice
+
+    except Exception as e:
+        print("LLM voting failed:", e)
+
+    # 4. fallback random
+    target = random.choice(players)
+    print(f"Random vote: {target}")
+    return target
